@@ -1,14 +1,17 @@
-version: "3.7"
-
 services:
-
-  app_proxy:
+  mysql:
+    image: mysql:8.4
+    container_name: mysql
+    restart: unless-stopped
     environment:
-      # The format here is: <app-id>_<docker-service-name>_1
-      APP_HOST: sparkles-hello-world_server_1
-      APP_PORT: 3000
-    
-  server:
-    image: getumbrel/community-app-store-hello-world:latest
-    user: "1000:1000"
-    init: true
+      MYSQL_ROOT_PASSWORD: change_this_password
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: change_this_user_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
